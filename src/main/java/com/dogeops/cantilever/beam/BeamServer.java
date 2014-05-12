@@ -1,6 +1,7 @@
 package com.dogeops.cantilever.beam;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 import org.apache.commons.cli.BasicParser;
 import org.apache.commons.cli.CommandLine;
@@ -9,10 +10,15 @@ import org.apache.commons.cli.HelpFormatter;
 import org.apache.commons.cli.Option;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
+import org.apache.log4j.Logger;
 
+import com.dogeops.cantilever.logreader.HTTPLogReader;
 import com.dogeops.cantilever.utils.ConfigurationSingleton;
 
 public class BeamServer {
+	private static final Logger logger = Logger.getLogger(BeamServer.class
+			.getName());
+
 	private static void usage(Options options) {
 		HelpFormatter formatter = new HelpFormatter();
 		formatter.printHelp("Usage options:", options);
@@ -37,6 +43,26 @@ public class BeamServer {
 			usage(opt);
 		}
 
-	}
+		String pickup_dir = ConfigurationSingleton.instance
+				.getConfigItem("log.pickupdir");
+		// Boolean convert =
+		// Boolean.valueOf(ConfigurationSingleton.instance.getConfigItem("log.convert"));
+		// String convert_type =
+		// ConfigurationSingleton.instance.getConfigItem("log.convert.type").toLowerCase();
+		//
+		// if (convert) {
+		// HTTPLogConverter converter = new HTTPLogConverter(convert_type);
+		// converter.convert(pickup_dir);
+		// }
 
+		HTTPLogReader log_reader = new HTTPLogReader();
+		ArrayList parsed_logs = log_reader.readLogs(pickup_dir);
+		for (Object s: parsed_logs) {
+			logger.debug(s);
+		}
+		
+		// Launch ES and index parsed_logs
+		// 
+
+	}
 }
