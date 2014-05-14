@@ -38,7 +38,7 @@ public class BeamServer {
 		formatter.printHelp("Usage options:", options);
 	}
 
-	public static void main(String[] args) throws IOException, InterruptedException {
+	public static void main(String[] args) {
 		Options opt = new Options();
 		Option op = new Option("config", true,
 				"Full path to config file: /opt/cantilever/cantilever.config");
