@@ -31,6 +31,11 @@ public enum ConfigurationSingleton {
 
 	public String getConfigItem(String val) {
 		try {
+			if (props.isEmpty()) {
+				throw new Exception("Propery file object is empty. "
+						+ "This likely indicates that the config singleton "
+						+ "was not properly initialized via readConfigFile.");
+			}
 			if (props.getProperty(val) == null) {
 				throw new Exception("The property " + val
 						+ " is missing from the configurtion file.");

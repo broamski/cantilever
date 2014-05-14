@@ -10,10 +10,13 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.apache.log4j.Logger;
-import com.google.gson.Gson;
+import org.elasticsearch.common.xcontent.XContentBuilder;
+import static org.elasticsearch.common.xcontent.XContentFactory.*;
 
+import com.google.gson.Gson;
 import com.dogeops.cantilever.utils.ConfigurationSingleton;
 import com.dogeops.cantilever.utils.Timer;
+
 import static com.dogeops.cantilever.utils.Util.cease;
 
 public class HTTPLogReader {
@@ -45,9 +48,11 @@ public class HTTPLogReader {
 						Pattern p = Pattern.compile(log_regex);
 						Matcher m = p.matcher(line);
 						m.find();
+						
 						HTTPLogObject http_log = new HTTPLogObject(
 								m.group("TIMESTAMP"), m.group("METHOD"),
 								m.group("REQUEST"));
+						http_log.setPayload(m.group("bytes"));
 						Gson gson = new Gson();
 						String json = gson.toJson(http_log);
 						httpObjectList.add(json);
