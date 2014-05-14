@@ -1,6 +1,6 @@
 cantilever
 ==========
-Cantilever is a http log replay tool. Its intent is to accurately replay production traffic patterns based upon httpd access logs.
+Cantilever is na http log replay tool. Its intent is to accurately replay production traffic patterns based upon httpd access logs.
 
 **beam**
 ==========
