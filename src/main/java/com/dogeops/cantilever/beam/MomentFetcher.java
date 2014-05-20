@@ -1,25 +1,35 @@
 package com.dogeops.cantilever.beam;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 
+import org.apache.commons.lang3.time.DateFormatUtils;
 import org.apache.log4j.Logger;
 
-public class MomentFetcher implements Runnable {
+import com.dogeops.cantilever.logreader.HTTPLogObject;
+import com.dogeops.cantilever.logreader.ReplayCache;
+import com.dogeops.cantilever.utils.ConfigurationSingleton;
+
+public class MomentFetcher {
 	private static final Logger logger = Logger.getLogger(MomentFetcher.class
 			.getName());
 	private Calendar cal;
 
 	public MomentFetcher(Calendar startTime) {
 		this.cal = startTime;
-	}
+		String timestamp = DateFormatUtils.format(this.cal,
+				ConfigurationSingleton.instance
+						.getConfigItem("replay.dateformat"));
 
-	public void run() {
-		logger.debug("Fetching all events for " + this.cal.getTime());
+		ArrayList<HTTPLogObject> thing = ReplayCache.instance
+				.gimmieCache(timestamp);
 
-		// Here is where we'll fetch the logs matching this time stamp from
-		// ElasticSearch, craft a pay load, then place it on a message bus
-
-		// This simulates the passing of time.
+		logger.debug(thing.size() + " events for " + timestamp);
+		
+		for (HTTPLogObject s : thing) {
+			logger.debug(s.request_uri);
+		}
+		
 		this.cal.add(Calendar.SECOND, 1);
 	}
 }

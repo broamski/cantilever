@@ -1,9 +1,5 @@
 package com.dogeops.cantilever.beam;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Map;
-
 import org.apache.commons.cli.BasicParser;
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
@@ -12,19 +8,6 @@ import org.apache.commons.cli.Option;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
 import org.apache.log4j.Logger;
-
-import static org.elasticsearch.node.NodeBuilder.*;
-
-import org.elasticsearch.action.get.GetResponse;
-import org.elasticsearch.action.index.IndexResponse;
-import org.elasticsearch.action.search.SearchResponse;
-import org.elasticsearch.action.search.SearchType;
-import org.elasticsearch.client.Client;
-import org.elasticsearch.common.xcontent.XContentBuilder;
-import org.elasticsearch.index.query.FilterBuilders;
-import org.elasticsearch.index.query.QueryBuilders;
-import org.elasticsearch.node.Node;
-import org.elasticsearch.search.SearchHit;
 
 import com.dogeops.cantilever.logreader.HTTPLogReader;
 import com.dogeops.cantilever.utils.ConfigurationSingleton;
@@ -70,21 +53,9 @@ public class BeamServer {
 		// }
 
 		HTTPLogReader log_reader = new HTTPLogReader();
-		ArrayList<String> parsed_logs = log_reader.readLogs(pickup_dir);
+		log_reader.readLogs(pickup_dir);
 		
-		// Launch ES and index parsed_logs
-		//Node node = nodeBuilder().clusterName("cantilever").node();
-		//Client client = node.client();
-
-		//for (String s: parsed_logs) {
-		//	logger.debug(s);
-		//	IndexResponse response = client.prepareIndex("httplogs", "request")
-		//	        .setSource(s)
-		//	        .execute()
-		//	        .actionGet();
-		//}
-		
-		// According to replay.starttime and replay.endtime, read from index
+		// According to replay.starttime and replay.endtime, read from cache
 		// Craft transaction payload and drop it on queue, AMQ first, AWS SQS later
 		LoopControl lc = new LoopControl();
 		lc.execute();
