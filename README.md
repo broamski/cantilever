@@ -1,6 +1,6 @@
 cantilever
 ==========
-Cantilever is a http log replay tool. Its intent is to accurately replay production traffic patterns based upon httpd access logs.
+Cantilever is an http log replay tool. Its intent is to accurately replay production traffic patterns based upon httpd access logs.
 
 **beam**
 ==========
@@ -13,8 +13,9 @@ log.pickupdir=/some/directory/with/apachelogs
 
 # The regex is based upon the generic Apache HTTP Log Format:
 # "%h %l %u %t \"%r\" %>s %b \"%{Referer}i\" \"%{User-Agent}i\""
-# Minimum required inputs are TIMESTAMP, METHOD, REQUEST
-log.convert.regex=(?<remotehost>[^ ].*) ([^ ].*) ([^ ]*) (?<TIMESTAMP>\\[.*\\]) \"(?<METHOD>[^ ]*) (?<REQUEST>[^ ]*) (?<httpversion>[^ ]*)" (?<status>[^ ]*) (?<bytes>[^ ]*) (?<referer>\".*\") (?<useragent>\".*\")
+# Use regex group matching to isolate required input values
+# Minimum required input valie are TIMESTAMP, METHOD, REQUEST
+log.convert.regex=(?<REMOTEHOST>[^ ].*) ([^ ].*) ([^ ]*) (?<TIMESTAMP>\\[.*\\]) \"(?<METHOD>[^ ]*) (?<REQUEST>[^ ]*) (?<HTTPVERSION>[^ ]*)" (?<STATUS>[^ ]*) (?<BYTES>[^ ]*) (?<REFERER>\".*\") (?<USERAGENT>\".*\")
 
 # ^^ Test your regular expressions on sweet sites such as http://rubular.com/
 
