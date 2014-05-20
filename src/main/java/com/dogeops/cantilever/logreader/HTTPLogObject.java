@@ -12,4 +12,9 @@ public class HTTPLogObject {
 	public void setPayload(String string) {
 		this.request_size = string;
 	}
+	
+	public String toString() {
+		return "Timestamp: " + this.timestamp + " Method: " + this.method + " Request: " + this.request_uri;
+		
+	}
 }
