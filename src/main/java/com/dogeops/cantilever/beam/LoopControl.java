@@ -9,7 +9,10 @@ import java.util.TimeZone;
 
 import org.apache.log4j.Logger;
 
+import com.dogeops.cantilever.messagequeue.MessageQueueFactory;
+import com.dogeops.cantilever.messagequeue.MessageQueueInterface;
 import com.dogeops.cantilever.utils.ConfigurationSingleton;
+import com.dogeops.cantilever.utils.Timer;
 import com.dogeops.cantilever.utils.Util;
 
 public class LoopControl {
@@ -43,11 +46,30 @@ public class LoopControl {
 			logger.debug("Staring at: " + startTime.getTime()
 					+ " and Ending at: " + endTime.getTime() + ", running for "
 					+ run_time + " ms");
+			
+			MessageQueueFactory mqf = new MessageQueueFactory();
+			
+			MessageQueueInterface mqi = mqf.getQueue(ConfigurationSingleton.instance
+					.getConfigItem("replay.queue.type"));
+			mqi.connect(ConfigurationSingleton.instance
+					.getConfigItem("replay.queue.hostname"), ConfigurationSingleton.instance
+					.getConfigItem("replay.queue.queuename"));
 
 			for (int i = 0; i <= (run_time / 1000); i++) {
-				new MomentFetcher(startTime);
-				Thread.sleep(1000);
+				Timer t = new Timer();
+				t.start();
+				new MomentFetcher(startTime, mqi);
+				t.stop();
+				if (t.getElapsed() >= 1000) {
+					logger.debug("Fetch took " + t.getElapsed() + ", this could be a problem....");
+				} else {
+					logger.debug("Fetch took: " + t.getElapsed()
+							+ "ms. Ofsetting pause by " + t.getElapsed());
+					Thread.sleep(1000 - t.getElapsed());
+				}
 			}
+			
+			mqi.disconnect();
 
 		} catch (ParseException e) {
 			Util.cease(logger, e.getMessage());

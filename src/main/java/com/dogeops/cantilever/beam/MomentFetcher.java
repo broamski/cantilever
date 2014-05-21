@@ -17,7 +17,7 @@ public class MomentFetcher {
 			.getName());
 	private Calendar cal;
 
-	public MomentFetcher(Calendar startTime) {
+	public MomentFetcher(Calendar startTime, MessageQueueInterface mqi) {
 		this.cal = startTime;
 		String timestamp = DateFormatUtils.format(this.cal,
 				ConfigurationSingleton.instance
@@ -28,22 +28,10 @@ public class MomentFetcher {
 
 		logger.debug(thing.size() + " events for " + timestamp);
 		
-		// ZZZ - This needs to be re-worked to NOT reconnect every second.
-		// ### - Maybe move to LoopControl and have MomentFecter return
-		// ### - the ArrayList?
-		MessageQueueFactory mqf = new MessageQueueFactory();
-		
-		MessageQueueInterface mqi = mqf.getQueue(ConfigurationSingleton.instance
-				.getConfigItem("replay.queue.type"));
-		mqi.connect(ConfigurationSingleton.instance
-				.getConfigItem("replay.queue.hostname"), ConfigurationSingleton.instance
-				.getConfigItem("replay.queue.queuename"));
-		
 		for (HTTPLogObject s : thing) {
 			mqi.deliver(s.toString());
 			logger.debug(s.request_uri);
 		}
-		mqi.disconnect();
 		this.cal.add(Calendar.SECOND, 1);
 	}
 }
