@@ -46,7 +46,7 @@ public class HTTPLogReader {
 						HTTPLogObject http_log = new HTTPLogObject(
 								m.group("TIMESTAMP"), m.group("METHOD"),
 								m.group("REQUEST"));
-						http_log.setPayload(m.group("bytes"));
+						http_log.setPayload(m.group("BYTES"));
 						
 						ReplayCache.instance.addToCache(http_log);
 					
