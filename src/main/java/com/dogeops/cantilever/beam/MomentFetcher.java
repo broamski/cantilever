@@ -8,6 +8,8 @@ import org.apache.log4j.Logger;
 
 import com.dogeops.cantilever.logreader.HTTPLogObject;
 import com.dogeops.cantilever.logreader.ReplayCache;
+import com.dogeops.cantilever.messagequeue.MessageQueueFactory;
+import com.dogeops.cantilever.messagequeue.MessageQueueInterface;
 import com.dogeops.cantilever.utils.ConfigurationSingleton;
 
 public class MomentFetcher {
@@ -26,10 +28,22 @@ public class MomentFetcher {
 
 		logger.debug(thing.size() + " events for " + timestamp);
 		
+		// ZZZ - This needs to be re-worked to NOT reconnect every second.
+		// ### - Maybe move to LoopControl and have MomentFecter return
+		// ### - the ArrayList?
+		MessageQueueFactory mqf = new MessageQueueFactory();
+		
+		MessageQueueInterface mqi = mqf.getQueue(ConfigurationSingleton.instance
+				.getConfigItem("replay.queue.type"));
+		mqi.connect(ConfigurationSingleton.instance
+				.getConfigItem("replay.queue.hostname"), ConfigurationSingleton.instance
+				.getConfigItem("replay.queue.queuename"));
+		
 		for (HTTPLogObject s : thing) {
+			mqi.deliver(s.toString());
 			logger.debug(s.request_uri);
 		}
-		
+		mqi.disconnect();
 		this.cal.add(Calendar.SECOND, 1);
 	}
 }
