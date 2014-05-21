@@ -25,6 +25,7 @@ public class ActiveMQ implements MessageQueueInterface {
 
 	public void connect(String hostname, String queue_name) {
 		try {
+			logger.debug("Connecting to ActiveMQ Broker: " + hostname + " - Queue: " + queue_name);
 			connectionFactory = new ActiveMQConnectionFactory(hostname);
 			connection = connectionFactory.createConnection();
 			connection.start();
@@ -37,6 +38,8 @@ public class ActiveMQ implements MessageQueueInterface {
 
 	public void disconnect() {
 		try {
+			// We need to get some more details in this log message...
+			logger.debug("Disconnecting from ActiveMQ Broker");
 			connection.close();
 		} catch (JMSException e) {
 			Util.cease(logger, e.getMessage());
@@ -45,6 +48,8 @@ public class ActiveMQ implements MessageQueueInterface {
 
 	public void deliver(String payload) {
 		try {
+			// We need to get some more details in this log message...
+			logger.debug("Writing message to queue.");
 			// Create a MessageProducer from the Session to the Topic or Queue
 			MessageProducer producer = session.createProducer(destination);
 			producer.setDeliveryMode(DeliveryMode.NON_PERSISTENT);

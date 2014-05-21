@@ -64,7 +64,7 @@ public class LoopControl {
 					logger.debug("Fetch took " + t.getElapsed() + ", this could be a problem....");
 				} else {
 					logger.debug("Fetch took: " + t.getElapsed()
-							+ "ms. Ofsetting pause by " + t.getElapsed());
+							+ "ms. Ofsetting pause by " + t.getElapsed() + "ms");
 					Thread.sleep(1000 - t.getElapsed());
 				}
 			}
