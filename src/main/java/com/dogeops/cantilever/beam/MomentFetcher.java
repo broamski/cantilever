@@ -8,7 +8,6 @@ import org.apache.log4j.Logger;
 
 import com.dogeops.cantilever.logreader.HTTPLogObject;
 import com.dogeops.cantilever.logreader.ReplayCache;
-import com.dogeops.cantilever.messagequeue.MessageQueueFactory;
 import com.dogeops.cantilever.messagequeue.MessageQueueInterface;
 import com.dogeops.cantilever.utils.ConfigurationSingleton;
 
@@ -26,11 +25,11 @@ public class MomentFetcher {
 		ArrayList<HTTPLogObject> thing = ReplayCache.instance
 				.gimmieCache(timestamp);
 
-		logger.debug(thing.size() + " events for " + timestamp);
+		logger.info(thing.size() + " events for " + timestamp);
 		
 		for (HTTPLogObject s : thing) {
-			mqi.deliver(s.toString());
-			logger.debug(s.request_uri);
+			mqi.deliver(s.getPayload());
+			logger.debug(s.getPayload());
 		}
 		this.cal.add(Calendar.SECOND, 1);
 	}

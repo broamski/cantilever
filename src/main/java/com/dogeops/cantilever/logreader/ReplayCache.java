@@ -14,13 +14,13 @@ public enum ReplayCache {
 	private Hashtable<String, ArrayList<HTTPLogObject>> cache = new Hashtable<String, ArrayList<HTTPLogObject>>();
 	
 	public void addToCache(HTTPLogObject input_request) {
-		logger.debug("Adding " + input_request.timestamp + " to cache");
-		if (cache.containsKey(input_request.timestamp)) {
-			cache.get(input_request.timestamp).add(input_request);
+		logger.debug("Adding " + input_request.getTimestamp() + " to cache");
+		if (cache.containsKey(input_request.getTimestamp())) {
+			cache.get(input_request.getTimestamp()).add(input_request);
 		} else {
 			ArrayList<HTTPLogObject> temp = new ArrayList<HTTPLogObject>();
 			temp.add(input_request);
-			cache.put(input_request.timestamp, temp);
+			cache.put(input_request.getTimestamp(), temp);
 		}
 	}
 	

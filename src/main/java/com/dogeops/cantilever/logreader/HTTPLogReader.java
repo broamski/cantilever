@@ -12,6 +12,7 @@ import org.apache.log4j.Logger;
 
 import com.dogeops.cantilever.utils.ConfigurationSingleton;
 import com.dogeops.cantilever.utils.Timer;
+import com.google.gson.Gson;
 
 import static com.dogeops.cantilever.utils.Util.cease;
 
@@ -36,22 +37,26 @@ public class HTTPLogReader {
 							file.getAbsolutePath()));
 					String line = null;
 					while ((line = br.readLine()) != null) {
-						logger.debug(line);
+						logger.trace(line);
 						line = line.trim();
 
 						Pattern p = Pattern.compile(log_regex);
 						Matcher m = p.matcher(line);
-						m.find();
-						
-						HTTPLogObject http_log = new HTTPLogObject(
-								m.group("TIMESTAMP"), m.group("METHOD"),
-								m.group("REQUEST"));
-						http_log.setPayload(m.group("BYTES"));
-						
-						ReplayCache.instance.addToCache(http_log);
-					
-						logger.debug(http_log);
+						try {
+							m.find();
+							HTTPLogObject hl = new HTTPLogObject(
+									m.group("TIMESTAMP"), m.group("METHOD"),
+									m.group("REQUEST"), m.group("BYTES"), m
+											.group("USERAGENT").replace("\"",
+													""));
+
+							ReplayCache.instance.addToCache(hl);
+						} catch (Exception e) {
+							logger.error("Unparsable line: " + line + " - "
+									+ e.getMessage());
+						}
 					}
+					br.close();
 				} catch (FileNotFoundException e) {
 					cease(logger, e.getMessage());
 				} catch (IOException e) {
@@ -59,9 +64,10 @@ public class HTTPLogReader {
 				}
 			}
 			t.stop();
-			logger.info(fileCount + " files parsed in " + t.getElapsed() + " ms");
+			logger.info(fileCount + " files parsed in " + t.getElapsed()
+					+ " ms");
 		} else {
-			cease(logger, "Could not find folder " + path);	
+			cease(logger, "Could not find folder " + path);
 		}
 	}
 }
