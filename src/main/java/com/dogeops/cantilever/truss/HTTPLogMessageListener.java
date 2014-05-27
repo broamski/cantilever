@@ -22,7 +22,7 @@ public class HTTPLogMessageListener implements MessageListener {
 				text = textMessage.getText();
 				Gson gson = new Gson();
 				HTTPLogObject http_log = gson.fromJson(text, HTTPLogObject.class);
-				new HTTPRequest(http_log.getRequest(), http_log.getHeaders(), http_log.getServerName());
+				new HTTPRequest(http_log);
 				logger.debug("Received: " + text);
 			} catch (JMSException e) {
 				e.printStackTrace();
