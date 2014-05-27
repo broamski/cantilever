@@ -42,4 +42,16 @@ public class HTTPLogObject {
 	public String getPayload() {
 		return this.request_payload;
 	}
+	
+	public String getRequest() {
+		return this.request;
+	}
+	
+	public String[] getHeaders() {
+		return this.headers;
+	}
+	
+	public String getServerName() {
+		return this.requesting_resver;
+	}
 }

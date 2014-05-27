@@ -4,6 +4,7 @@ import javax.jms.Connection;
 import javax.jms.DeliveryMode;
 import javax.jms.Destination;
 import javax.jms.JMSException;
+import javax.jms.MessageConsumer;
 import javax.jms.MessageProducer;
 import javax.jms.Session;
 import javax.jms.TextMessage;
@@ -11,6 +12,7 @@ import javax.jms.TextMessage;
 import org.apache.activemq.ActiveMQConnectionFactory;
 import org.apache.log4j.Logger;
 
+import com.dogeops.cantilever.truss.HTTPLogMessageListener;
 import com.dogeops.cantilever.utils.Util;
 
 public class ActiveMQ implements MessageQueueInterface {
@@ -63,6 +65,18 @@ public class ActiveMQ implements MessageQueueInterface {
 		} catch (JMSException e) {
 			Util.cease(logger, e.getMessage());
 		}
+	}
+
+	public void consume(HTTPLogMessageListener ml) {
+		 try {
+			MessageConsumer consumer = session.createConsumer(destination);
+			HTTPLogMessageListener hml = new HTTPLogMessageListener();
+			consumer.setMessageListener(hml);
+		} catch (JMSException e) {
+			logger.error(e.getMessage());
+		}
+		 
+		
 	}
 
 }
