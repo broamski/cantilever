@@ -54,4 +54,8 @@ public class HTTPLogObject {
 	public String getServerName() {
 		return this.requesting_resver;
 	}
+	
+	public String getMethod() {
+		return this.method;
+	}
 }
