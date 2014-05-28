@@ -9,12 +9,12 @@ import org.apache.log4j.Logger;
 import com.dogeops.cantilever.logreader.HTTPLogObject;
 import com.dogeops.cantilever.utils.ConfigurationSingleton;
 
-public class HTTPRequest {
-	private static final Logger logger = Logger.getLogger(HTTPRequest.class
+public class HTTPGetRequest {
+	private static final Logger logger = Logger.getLogger(HTTPGetRequest.class
 			.getName());
 	
 	//public HTTPRequest(String url, String[] headers, String host) {
-	public HTTPRequest(HTTPLogObject http_log) {
+	public HTTPGetRequest(HTTPLogObject http_log) {
 		
 		// I'm unsure why we access these particular config items from the 
 		// config singleton and not-prop them like we do in the HTTP Log Object
