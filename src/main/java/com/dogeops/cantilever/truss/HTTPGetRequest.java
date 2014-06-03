@@ -13,7 +13,6 @@ public class HTTPGetRequest {
 	private static final Logger logger = Logger.getLogger(HTTPGetRequest.class
 			.getName());
 	
-	//public HTTPRequest(String url, String[] headers, String host) {
 	public HTTPGetRequest(HTTPLogObject http_log) {
 		
 		// I'm unsure why we access these particular config items from the 
@@ -44,8 +43,8 @@ public class HTTPGetRequest {
 				httpGet.addHeader(header_key, header_value);
 			}
 
-			CloseableHttpResponse response1 = httpclient.execute(httpGet);
-		    logger.debug("GET " + "http://" + http_log.getServerName() + http_log.getRequest() + " - " + response1.getStatusLine());
+			CloseableHttpResponse response = httpclient.execute(httpGet);
+		    logger.debug("GET " + "http://" + http_log.getServerName() + http_log.getRequest() + " - " + response.getStatusLine());
 		    httpclient.close();
 		}
 		catch (Exception e) {
