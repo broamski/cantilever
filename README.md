@@ -4,6 +4,14 @@
 ==========
 Beam is the server component. It uses regular expressions to parse the necessary information from httpd access logs. Beam parses and indexes the logs by timestamp, then simulates time travel and iterates over them according to a user specified beginning timestamp.
 
+**truss**
+==========
+Truss is the http client that replays logs. It listens to a message queue (ActiveMQ currently supported, Amazon SQS planned) for replay payloads and then executes them against the appropriate server. These should be stand alone and will do most of the heavy lifting.
+
+**Usage**
+==========
+Soon..
+
 ###### contilever.config
 ```
 # Directory that contains parsable httpd access logs
@@ -41,7 +49,3 @@ replay.queue.hostname=tcp://localhost:61616
 replay.queue.queuename=HTTP_LOGS
 
 ```
-
-**truss**
-==========
-Truss is the http client that replays logs. It listens to a message queue (ActiveMQ currently supported, Amazon SQS planned) for replay payloads and then executes them against the appropriate server. These should be stand alone and will do most of the heavy lifting.
