@@ -1,6 +1,4 @@
-cantilever
-==========
-Cantilever is an http log replay tool. Its intent is to accurately replay production traffic patterns based upon httpd access logs.
+# Cantilever is an http log replay tool. Its intent is to accurately replay production traffic patterns based upon httpd access logs.
 
 **beam**
 ==========
@@ -26,8 +24,24 @@ replay.dateformat='['dd/MMM/yyyy:HH:mm:ss Z']'
 replay.starttime=[09/May/2014:23:30:15 +0000]
 replay.endtime=[09/May/2014:23:30:49 +0000]
 
+
+# Used by replay client
+replay.request.port=80
+# HTTP or HTTPS
+replay.request.protocol=http
+replay.request.headers.delimiter=~
+replay.request.headers=Connection:keep-alive~Accept-Encoding:gzip,deflate,sdch
+replay.request.servername=www.website.com
+
+truss.threads=50
+
+# AMQ, SQS (Amazon)
+replay.queue.type=AMQ
+replay.queue.hostname=tcp://localhost:61616
+replay.queue.queuename=HTTP_LOGS
+
 ```
 
-**truss** (WIP)
+**truss**
 ==========
-Truss is the http client that replays logs. It listens to a message queue for replay payloads and then executes them against the appropriate server.
+Truss is the http client that replays logs. It listens to a message queue (ActiveMQ currently supported, Amazon SQS planned) for replay payloads and then executes them against the appropriate server. These should be stand alone and will do most of the heavy lifting.
