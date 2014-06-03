@@ -57,7 +57,7 @@ public class HTTPLogMessageListener implements MessageListener {
 				    	new HTTPGetRequest(http_log, httpclient).start();
 				    	break;
 				    case POST:
-				    	logger.info("Unimplemented HTTP Method...as of now");
+				    	new HTTPPostRequest(http_log);
 				    	break;
 				    default:
 				    	logger.error("Unsupport HTTP Method: " + http_log.getMethod());
