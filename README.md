@@ -26,7 +26,7 @@ log.pickupdir=/some/directory/with/apachelogs
 # The regex is based upon the generic Apache HTTP Log Format:
 # "%h %l %u %t \"%r\" %>s %b \"%{Referer}i\" \"%{User-Agent}i\""
 # Use regex group matching to isolate required input values
-# Minimum required input valie are TIMESTAMP, METHOD, REQUEST
+# Minimum required input values are TIMESTAMP, METHOD, REQUEST
 log.convert.regex=(?<REMOTEHOST>[^ ].*) ([^ ].*) ([^ ]*) (?<TIMESTAMP>\\[.*\\]) \"(?<METHOD>[^ ]*) (?<REQUEST>[^ ]*) (?<HTTPVERSION>[^ ]*)" (?<STATUS>[^ ]*) (?<BYTES>[^ ]*) (?<REFERER>\".*\") (?<USERAGENT>\".*\")
 
 # ^^ Test your regular expressions on sweet sites such as http://rubular.com/
