@@ -52,6 +52,7 @@ public class HTTPGetRequest extends Thread{
 				String header_value = headers[i].split(":")[1];
 				httpget.addHeader(header_key, header_value);
 			}
+			httpget.addHeader("User-Agent", http_log.getUseragent());
 
 			CloseableHttpResponse response = httpClient.execute(httpget, context);
 			

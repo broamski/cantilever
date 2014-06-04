@@ -58,4 +58,8 @@ public class HTTPLogObject {
 	public String getMethod() {
 		return this.method;
 	}
+	
+	public String getUseragent() {
+		return this.useragent;
+	}
 }
