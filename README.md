@@ -10,7 +10,13 @@ Truss is the http client that replays logs. It listens to a message queue (Activ
 
 **Usage**
 ==========
-Soon..
+1. Crate a single cantilever.config file with your appropriate configuration settings
+2. Build a Runnable Jar
+3. Setup an ActiveMQ Broker (until Amazon SQS is implemented)
+4. Create X Truss Servers, use truss.sh to launch, ready to consume logs
+5. Create a single Beam Server, transfer all log files to a convenient location
+6. On Beam Server, use beam.sh to launch
+
 
 ###### contilever.config
 ```
