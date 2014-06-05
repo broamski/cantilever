@@ -56,7 +56,7 @@ public class HTTPGetRequest extends Thread{
 
 			CloseableHttpResponse response = httpClient.execute(httpget, context);
 			
-		    logger.debug("GET " + "http://" + http_log.getServerName() + http_log.getRequest() + " - " + response.getStatusLine());
+		    logger.debug("GET " + request + " - " + response.getStatusLine());
 		    response.close();
 		}
 		catch (Exception e) {
