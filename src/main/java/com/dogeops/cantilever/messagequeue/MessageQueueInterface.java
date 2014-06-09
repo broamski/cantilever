@@ -1,10 +1,10 @@
 package com.dogeops.cantilever.messagequeue;
 
-import com.dogeops.cantilever.truss.HTTPLogMessageListener;
+import com.dogeops.cantilever.truss.client.ning.HTTPAsyncLogMessageListener;
 
 public interface MessageQueueInterface {
 	public void connect(String hostname, String queue_name);
 	public void disconnect();
 	public void deliver(String payload);
-	public void consume(HTTPLogMessageListener ml);
+	public void consume(HTTPAsyncLogMessageListener ml);
 }

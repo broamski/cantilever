@@ -1,33 +1,33 @@
-package com.dogeops.cantilever.truss;
+package com.dogeops.cantilever.truss.client.ning;
 
 import javax.jms.JMSException;
 import javax.jms.Message;
 import javax.jms.MessageListener;
 import javax.jms.TextMessage;
 
-import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.impl.client.HttpClients;
-import org.apache.http.impl.conn.PoolingHttpClientConnectionManager;
 import org.apache.log4j.Logger;
 
 import com.dogeops.cantilever.logreader.HTTPLogObject;
-import com.dogeops.cantilever.utils.ConfigurationSingleton;
 import com.google.gson.Gson;
+import com.ning.http.client.AsyncHttpClient;
+import com.ning.http.client.AsyncHttpClientConfig;
+import com.ning.http.client.AsyncHttpClientConfig.Builder;
 
-public class HTTPLogMessageListener implements MessageListener {
-	private static final Logger logger = Logger.getLogger(HTTPLogMessageListener.class
+public class HTTPAsyncLogMessageListener implements MessageListener {
+	private static final Logger logger = Logger.getLogger(HTTPAsyncLogMessageListener.class
 			.getName());
 	
-	public PoolingHttpClientConnectionManager cm = new PoolingHttpClientConnectionManager();
-    
-	public CloseableHttpClient httpclient = HttpClients.custom()
-            .setConnectionManager(cm)
-            .build();
-	
-    public HTTPLogMessageListener() {
-    	String str_truss_threads = ConfigurationSingleton.instance.getConfigItem("truss.threads");
-    	int truss_threads = Integer.parseInt(str_truss_threads);
-    	cm.setMaxTotal(truss_threads);
+	private Builder builder;
+	private AsyncHttpClient client;
+
+    public HTTPAsyncLogMessageListener() {
+		builder = new AsyncHttpClientConfig.Builder();
+		builder.setCompressionEnabled(true)
+			.setMaximumConnectionsPerHost(100)
+		    .setRequestTimeoutInMs(15000)
+		    .build();
+		
+		client = new AsyncHttpClient(builder.build());
     }
 	
 	public enum AcceptableMethods {
@@ -54,10 +54,10 @@ public class HTTPLogMessageListener implements MessageListener {
 				switch (AcceptableMethods.getValue(http_log.getMethod()))
 				{
 				    case GET:
-				    	new HTTPGetRequest(http_log, httpclient).start();
+				    	new HTTPAsyncGet(client, http_log);
 				    	break;
 				    case POST:
-				    	new HTTPPostRequest(http_log, httpclient).start();
+				    	new HTTPAsyncPost(client, http_log);
 				    	break;
 				    default:
 				    	logger.error("Unsupport HTTP Method: " + http_log.getMethod());

@@ -1,4 +1,4 @@
-package com.dogeops.cantilever.truss;
+package com.dogeops.cantilever.truss.client.apache;
 
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;

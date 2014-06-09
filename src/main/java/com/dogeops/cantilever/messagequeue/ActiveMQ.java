@@ -12,7 +12,7 @@ import javax.jms.TextMessage;
 import org.apache.activemq.ActiveMQConnectionFactory;
 import org.apache.log4j.Logger;
 
-import com.dogeops.cantilever.truss.HTTPLogMessageListener;
+import com.dogeops.cantilever.truss.client.ning.HTTPAsyncLogMessageListener;
 import com.dogeops.cantilever.utils.Util;
 
 public class ActiveMQ implements MessageQueueInterface {
@@ -67,16 +67,13 @@ public class ActiveMQ implements MessageQueueInterface {
 		}
 	}
 
-	public void consume(HTTPLogMessageListener ml) {
+	public void consume(HTTPAsyncLogMessageListener ml) {
 		 try {
 			MessageConsumer consumer = session.createConsumer(destination);
-			HTTPLogMessageListener hml = new HTTPLogMessageListener();
+			HTTPAsyncLogMessageListener hml = new HTTPAsyncLogMessageListener();
 			consumer.setMessageListener(hml);
 		} catch (JMSException e) {
 			logger.error(e.getMessage());
 		}
-		 
-		
 	}
-
 }

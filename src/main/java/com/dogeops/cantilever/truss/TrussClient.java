@@ -4,6 +4,7 @@ import org.apache.log4j.Logger;
 
 import com.dogeops.cantilever.messagequeue.MessageQueueFactory;
 import com.dogeops.cantilever.messagequeue.MessageQueueInterface;
+import com.dogeops.cantilever.truss.client.ning.HTTPAsyncLogMessageListener;
 import com.dogeops.cantilever.utils.Configuration;
 import com.dogeops.cantilever.utils.ConfigurationSingleton;
 
@@ -18,7 +19,9 @@ public class TrussClient {
 		logger.debug("Truss client starting...");
 		Configuration config = new Configuration();
 		config.getConfigFile(args);
-
+		
+		PostCacheBuilder pcb = new PostCacheBuilder();
+		
 		MessageQueueFactory mqf = new MessageQueueFactory();
 
 		MessageQueueInterface mqi = mqf
@@ -29,7 +32,7 @@ public class TrussClient {
 				ConfigurationSingleton.instance
 						.getConfigItem("replay.queue.queuename"));
 
-		HTTPLogMessageListener ml = new HTTPLogMessageListener();
+		HTTPAsyncLogMessageListener ml = new HTTPAsyncLogMessageListener();
 		mqi.consume(ml);
 
 	}

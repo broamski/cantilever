@@ -1,4 +1,4 @@
-package com.dogeops.cantilever.truss;
+package com.dogeops.cantilever.truss.client.apache;
 
 /* 
  * This is an extremely basic implementation until it is determined

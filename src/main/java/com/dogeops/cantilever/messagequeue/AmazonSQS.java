@@ -1,6 +1,6 @@
 package com.dogeops.cantilever.messagequeue;
 
-import com.dogeops.cantilever.truss.HTTPLogMessageListener;
+import com.dogeops.cantilever.truss.client.ning.HTTPAsyncLogMessageListener;
 
 public class AmazonSQS implements MessageQueueInterface {
 
@@ -16,7 +16,7 @@ public class AmazonSQS implements MessageQueueInterface {
 
 	}
 
-	public void consume(HTTPLogMessageListener ml) {
+	public void consume(HTTPAsyncLogMessageListener ml) {
 		
 	}
 
