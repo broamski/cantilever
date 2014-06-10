@@ -37,14 +37,10 @@ public class HTTPAsyncGet {
 				+ http_log.getRequest() + http_port;
 
 		RequestBuilder builder = new RequestBuilder("GET");
-
-		// Build headers
-		String headers[] = http_log.getHeaders();
-		for (int i = 0; i < headers.length; i++) {
-			String header_key = headers[i].split(":")[0];
-			String header_value = headers[i].split(":")[1];
-			builder.addHeader(header_key, header_value);
-		}
+		
+		HTTPUtils util = new HTTPUtils();
+		builder = util.buildHeaders(builder, http_log);
+		
 		builder.addHeader("User-Agent", http_log.getUseragent());
 		
 		Request request = builder.setUrl(url_request).build();

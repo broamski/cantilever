@@ -1,17 +1,13 @@
 package com.dogeops.cantilever.truss.client.ning;
 
 import java.io.IOException;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.Future;
 
 import org.apache.log4j.Logger;
 
 import com.dogeops.cantilever.logreader.HTTPLogObject;
 import com.dogeops.cantilever.truss.PostPayloadCache;
 import com.dogeops.cantilever.utils.ConfigurationSingleton;
-import com.ning.http.client.AsyncCompletionHandler;
 import com.ning.http.client.AsyncHandler;
-import com.ning.http.client.AsyncHandler.STATE;
 import com.ning.http.client.AsyncHttpClient;
 import com.ning.http.client.HttpResponseBodyPart;
 import com.ning.http.client.HttpResponseHeaders;
@@ -42,13 +38,8 @@ public class HTTPAsyncPost {
 
 		RequestBuilder builder = new RequestBuilder("POST");
 
-		// Build headers
-		String headers[] = http_log.getHeaders();
-		for (int i = 0; i < headers.length; i++) {
-			String header_key = headers[i].split(":")[0];
-			String header_value = headers[i].split(":")[1];
-			builder.addHeader(header_key, header_value);
-		}
+		HTTPUtils util = new HTTPUtils();
+		builder = util.buildHeaders(builder, http_log);
 		builder.addHeader("User-Agent", http_log.getUseragent());
 		
 		String one_time_payload = PostPayloadCache.instance.fetchPayload(http_log.getRequest());
