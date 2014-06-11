@@ -5,7 +5,7 @@ import com.google.gson.Gson;
 
 public class HTTPLogObject {
 	private String timestamp, method, request, bytes, useragent;
-	private String requesting_resver, request_payload;
+	private String requesting_resver, request_payload, url_request;
 	private String[] headers;
 	
 	public HTTPLogObject(String timestamp, String method, String request,
@@ -31,8 +31,24 @@ public class HTTPLogObject {
 		this.requesting_resver = ConfigurationSingleton.instance
 				.getConfigItem("replay.request.servername");
 		buildHeaderArray();
+		buildURLRequest();
 		Gson gson = new Gson();
 		this.request_payload = gson.toJson(this);
+	}
+	
+	private void buildURLRequest() {
+		String http_port = ConfigurationSingleton.instance
+				.getConfigItem("replay.request.port");
+		String http_protocol = ConfigurationSingleton.instance.getConfigItem(
+				"replay.request.protocol").toLowerCase();
+
+		if (http_port.equals("80") || http_port.equals("443")) {
+			http_port = "";
+		} else {
+			http_port = ":" + http_port;
+		}
+		this.url_request = http_protocol + "://" + this.requesting_resver
+				+ this.request + http_port;
 	}
 	
 	public String getTimestamp() {
@@ -61,5 +77,9 @@ public class HTTPLogObject {
 	
 	public String getUseragent() {
 		return this.useragent;
+	}
+	
+	public String getURLRequest() {
+		return this.url_request;
 	}
 }

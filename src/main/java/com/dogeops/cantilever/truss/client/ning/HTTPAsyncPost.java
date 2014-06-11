@@ -22,21 +22,9 @@ public class HTTPAsyncPost {
 	private String url_request;
 
 	public HTTPAsyncPost(AsyncHttpClient client, HTTPLogObject http_log) {
-		String http_port = ConfigurationSingleton.instance
-				.getConfigItem("replay.request.port");
-		String http_protocol = ConfigurationSingleton.instance.getConfigItem(
-				"replay.request.protocol").toLowerCase();
-
-		if (http_port.equals("80") || http_port.equals("443")) {
-			http_port = "";
-		} else {
-			http_port = ":" + http_port;
-		}
-
-		url_request = http_protocol + "://" + http_log.getServerName()
-				+ http_log.getRequest() + http_port;
 
 		RequestBuilder builder = new RequestBuilder("POST");
+		url_request = http_log.getURLRequest();
 
 		HTTPUtils util = new HTTPUtils();
 		builder = util.buildHeaders(builder, http_log);
@@ -46,7 +34,7 @@ public class HTTPAsyncPost {
 		logger.debug("Here is the randomized payload: " + one_time_payload);
 		builder.setBody(one_time_payload);
 
-		Request request = builder.setUrl(url_request).build();
+		Request request = builder.setUrl(http_log.getURLRequest()).build();
 
 		AsyncHandler<Response> asyncHandler = new AsyncHandler<Response>() {
 			private final Response.ResponseBuilder builder = new Response.ResponseBuilder();

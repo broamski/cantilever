@@ -22,21 +22,9 @@ public class HTTPAsyncGet {
 	private String url_request;
 
 	public HTTPAsyncGet(AsyncHttpClient client, HTTPLogObject http_log) {
-		String http_port = ConfigurationSingleton.instance
-				.getConfigItem("replay.request.port");
-		String http_protocol = ConfigurationSingleton.instance.getConfigItem(
-				"replay.request.protocol").toLowerCase();
-
-		if (http_port.equals("80") || http_port.equals("443")) {
-			http_port = "";
-		} else {
-			http_port = ":" + http_port;
-		}
-
-		url_request = http_protocol + "://" + http_log.getServerName()
-				+ http_log.getRequest() + http_port;
 
 		RequestBuilder builder = new RequestBuilder("GET");
+		url_request = http_log.getURLRequest();
 		
 		HTTPUtils util = new HTTPUtils();
 		builder = util.buildHeaders(builder, http_log);
