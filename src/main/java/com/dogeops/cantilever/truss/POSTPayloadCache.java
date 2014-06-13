@@ -5,10 +5,10 @@ import java.util.Hashtable;
 
 import org.apache.log4j.Logger;
 
-public enum PostPayloadCache {
+public enum POSTPayloadCache {
 	instance;
 	private static final Logger logger = Logger
-			.getLogger(PostPayloadCache.class.getName());
+			.getLogger(POSTPayloadCache.class.getName());
 
 	private Hashtable<String, ArrayList<String>> cache = new Hashtable<String, ArrayList<String>>();
 	

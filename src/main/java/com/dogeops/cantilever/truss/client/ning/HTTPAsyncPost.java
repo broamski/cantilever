@@ -5,7 +5,7 @@ import java.io.IOException;
 import org.apache.log4j.Logger;
 
 import com.dogeops.cantilever.logreader.HTTPLogObject;
-import com.dogeops.cantilever.truss.PostPayloadCache;
+import com.dogeops.cantilever.truss.POSTPayloadCache;
 import com.dogeops.cantilever.utils.ConfigurationSingleton;
 import com.ning.http.client.AsyncHandler;
 import com.ning.http.client.AsyncHttpClient;
@@ -30,7 +30,7 @@ public class HTTPAsyncPost {
 		builder = util.buildHeaders(builder, http_log);
 		builder.addHeader("User-Agent", http_log.getUseragent());
 		
-		String one_time_payload = PostPayloadCache.instance.fetchPayload(http_log.getRequest());
+		String one_time_payload = POSTPayloadCache.instance.fetchPayload(http_log.getRequest());
 		logger.debug("Here is the randomized payload: " + one_time_payload);
 		builder.setBody(one_time_payload);
 

@@ -10,11 +10,11 @@ import org.apache.log4j.Logger;
 
 import com.dogeops.cantilever.utils.ConfigurationSingleton;
 
-public class PostPayloadCacheBuilder {
-	private static final Logger logger = Logger.getLogger(PostPayloadCacheBuilder.class
+public class POSTPayloadCacheBuilder {
+	private static final Logger logger = Logger.getLogger(POSTPayloadCacheBuilder.class
 			.getName());
 
-	public PostPayloadCacheBuilder() {
+	public POSTPayloadCacheBuilder() {
 		File pattern_file = new File(ConfigurationSingleton.instance
 				.getConfigItem("truss.post.patterns"));
 		
@@ -34,20 +34,20 @@ public class PostPayloadCacheBuilder {
 								line.split(":")[1]));
 						logger.debug("Processing for Request: " + line.split(":")[0] + " - File: " + line.split(":")[1]);
 						while ((line2 = truth_reader.readLine()) != null) {
-							PostPayloadCache.instance.addToCache(line.split(":")[0], line2);
+							POSTPayloadCache.instance.addToCache(line.split(":")[0], line2);
 							logger.debug("Adding Key: " + line.split(":")[0] + ", Value: " + line2 + ", to POST cache.");
 						}
+						truth_reader.close();
 					} catch (FileNotFoundException e){
 						logger.error(e.getMessage());
 					}
-					
 				}
+				br.close();
 			} catch (FileNotFoundException e) {
 				logger.error(e.getMessage());
 			} catch (IOException e) {
 				logger.error(e.getMessage());
 			}
-
 		}
 		else {
 			logger.error("Value truss.post.patterns was empty, so I didn't process POST data. Your results may vary.");
