@@ -10,11 +10,11 @@ import org.apache.log4j.Logger;
 
 import com.dogeops.cantilever.utils.ConfigurationSingleton;
 
-public class PostCacheBuilder {
-	private static final Logger logger = Logger.getLogger(PostCacheBuilder.class
+public class PostPayloadCacheBuilder {
+	private static final Logger logger = Logger.getLogger(PostPayloadCacheBuilder.class
 			.getName());
 
-	public PostCacheBuilder() {
+	public PostPayloadCacheBuilder() {
 		File pattern_file = new File(ConfigurationSingleton.instance
 				.getConfigItem("truss.post.patterns"));
 		
