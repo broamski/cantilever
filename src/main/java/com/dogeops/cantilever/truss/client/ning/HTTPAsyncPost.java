@@ -27,7 +27,11 @@ public class HTTPAsyncPost {
 		url_request = http_log.getURLRequest();
 
 		HTTPUtils util = new HTTPUtils();
-		builder = util.buildHeaders(builder, http_log);
+		builder = util.buildDefaultHeaders(builder, http_log);
+		
+		// Add additional POST headers, if specified
+		builder = util.buildCustomPOSTHeaders(builder, http_log);
+		
 		builder.addHeader("User-Agent", http_log.getUseragent());
 		
 		String one_time_payload = POSTPayloadCache.instance.fetchPayload(http_log.getRequest());

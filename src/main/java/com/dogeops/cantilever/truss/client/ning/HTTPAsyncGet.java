@@ -27,7 +27,10 @@ public class HTTPAsyncGet {
 		url_request = http_log.getURLRequest();
 		
 		HTTPUtils util = new HTTPUtils();
-		builder = util.buildHeaders(builder, http_log);
+		builder = util.buildDefaultHeaders(builder, http_log);
+
+		// Add additional GET headers, if specified
+		builder = util.buildCustomGETHeaders(builder, http_log);
 		
 		builder.addHeader("User-Agent", http_log.getUseragent());
 		

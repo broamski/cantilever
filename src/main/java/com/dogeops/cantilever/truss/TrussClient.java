@@ -21,6 +21,8 @@ public class TrussClient {
 		config.getConfigFile(args);
 		
 		POSTPayloadCacheBuilder pcb = new POSTPayloadCacheBuilder();
+		GETHeaderCacheBuilder ghcb = new GETHeaderCacheBuilder();
+		POSTHeaderCacheBuilder phcb = new POSTHeaderCacheBuilder();
 		
 		MessageQueueFactory mqf = new MessageQueueFactory();
 
