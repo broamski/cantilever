@@ -13,14 +13,15 @@ import com.dogeops.cantilever.utils.ConfigurationSingleton;
 public class POSTPayloadCacheBuilder {
 	private static final Logger logger = Logger.getLogger(POSTPayloadCacheBuilder.class
 			.getName());
+	private final String post_payload_config_key = "truss.post.patterns";
 
 	public POSTPayloadCacheBuilder() {
 		File pattern_file = new File(ConfigurationSingleton.instance
-				.getConfigItem("truss.post.patterns"));
+				.getConfigItem(post_payload_config_key));
 		
 		if (pattern_file.exists())
 		{
-			logger.debug("Inspecing Pattern File: " + pattern_file);
+			logger.debug("Inspecting Pattern File: " + pattern_file);
 			BufferedReader br;
 			try {
 				br = new BufferedReader(new FileReader(
@@ -50,7 +51,7 @@ public class POSTPayloadCacheBuilder {
 			}
 		}
 		else {
-			logger.error("Value truss.post.patterns was empty, so I didn't process POST data. Your results may vary.");
+			logger.error("Value " + post_payload_config_key + " was empty, so I didn't process POST data. Your results may vary.");
 		}
 	}
 }
